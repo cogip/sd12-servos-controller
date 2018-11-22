@@ -1,0 +1,13 @@
+# Basic access to check comm with bootloader
+sudo avrdude -c arduino -p m328p -v -v -P /dev/ttyUSB0 -b 57600
+
+# Flash
+sudo avrdude -c arduino -p m328p -v -v -P /dev/ttyUSB0 -b 57600 -U flash:w:equilibrium.hex:i
+
+# on final HW with ICSP port:
+sudo avrdude -v -v -p m328pb -c avrispmkII -U flash:w:equilibrium.hex:i -U lfuse:w:0xFF:m -U hfuse:w:0xD6:m -U efuse:w:0xF7:m
+
+# note: the SD12 should be powered before launching flash procedure
+
+# note: require a patch in avrdude.conf, of "-F" flag...
+
