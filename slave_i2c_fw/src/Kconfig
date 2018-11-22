@@ -1,0 +1,115 @@
+#
+# MCU firmware configuration
+#
+mainmenu "MCU firmware configuration"
+
+menu "Platform configuration"
+
+config ARCH
+	string "Architecture"
+	default "xmega"
+	help
+	  This can be xmega or unix.
+
+config SIMU_NORMAL_SPEED
+	bool "Simulation at 1:1 speed"
+	default y
+	help
+	  By unselecting this configuration, you will speed up simulation timeline by 10.
+	  Default is normal speed.
+
+choice
+	prompt "Target"
+	default BIG_BOT2015
+
+config BIG_BOT2015
+	bool "Geonobot BR (2015)"
+	#select ANALOG_SENSORS
+	#select GP2Y0A21
+	help
+	  This will build the Big bot firmware.
+
+config BIG_BOT2017
+	bool "Cortex (2017)"
+	#select ANALOG_SENSORS
+	help
+	  This will build the Big bot firmware.
+
+config SMALL_BOT2017
+	bool "Minus (2017)"
+	#select ANALOG_SENSORS
+	help
+	  This will build the Small bot firmware.
+
+config INTER_BOT2017
+	bool "Equilibrium (2017)"
+	#select ANALOG_SENSORS
+	help
+	  This will build the Test bot firmware.
+
+endchoice
+
+config PLATFORM_NAME
+	string
+	default "geonobot" if BIG_BOT2015
+	default "cortex" if BIG_BOT2017
+	default "minus" if SMALL_BOT2017
+	default "equilibrium" if INTER_BOT2017
+
+config CROSS_COMPILE
+        string "Cross-compiler prefix"
+        default "avr-"
+        help
+          Same as running 'make CROSS_COMPILE=prefix-' but stored for
+          default make runs in this build directory.
+
+config MCU
+	string "MCU type"
+	default "atxmega128a3u" if BIG_BOT2017 || SMALL_BOT2017
+	default "atxmega128a1" if BIG_BOT2015
+	default "atmega328p" if INTER_BOT2017
+	help
+	  This define the argument to "-mcu" option while calling the
+	  cross-compiler.
+
+config F_CPU
+	int "F_CPU (Hz)"
+	default 32000000
+	help
+	  This define the micro-controller CPU frequency (default: 32 MHz).
+
+endmenu # "Platform configuration"
+
+config ENABLE_LOGGING
+	bool "Enable logs on UART"
+	default n
+	help
+	  Select this if you want to enable the logs output on a dedicated UART.
+
+config DEFAULT_LOGLEVEL
+	int "Logs level"
+	depends on ENABLE_LOGGING
+	default 0
+	help
+	  Configure loglevel. Valid loglevels are 0 for error logs to 3
+	  which activates all log for: errors(0), warning(1), info(2) and
+	  debug(3).
+
+config CALIBRATION
+	bool "Calibration mode"
+	default y
+	help
+	  Select this if you want to include calibration mode feature inside
+	  firmware.
+
+config KOS_CHECK_STACKS
+	bool "Task stacks integrity checks"
+	default y
+	help
+	  Select this if you want the OS to include markers on top and bottom
+	  positions of task stacks. This add a some runtime overhead while
+	  scheduler is called to switch tasks context. Anyway, this is important
+	  to detect stack overflow & dimension tasks stack accordingly.
+	  If unsure, say Y.
+
+#source drivers/Kconfig

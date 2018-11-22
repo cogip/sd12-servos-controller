@@ -1,0 +1,20 @@
+#
+# Automatically generated file; DO NOT EDIT.
+# MCU firmware configuration
+#
+
+#
+# Platform configuration
+#
+CONFIG_ARCH="xmega"
+CONFIG_SIMU_NORMAL_SPEED=y
+CONFIG_BIG_BOT2015=y
+# CONFIG_BIG_BOT2017 is not set
+# CONFIG_SMALL_BOT2017 is not set
+CONFIG_PLATFORM_NAME="geonobot"
+CONFIG_CROSS_COMPILE="avr-"
+CONFIG_MCU="atmega328p"
+CONFIG_F_CPU=16000000
+# CONFIG_ENABLE_LOGGING is not set
+CONFIG_CALIBRATION=y
+CONFIG_KOS_CHECK_STACKS=y
